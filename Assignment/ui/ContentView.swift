@@ -52,7 +52,16 @@ struct ContentView: View {
                             debugPrint("selectedComputer", selectedComputer)
                         }
                     } else {
+                        if let computers = viewModel.data, computers.isEmpty {
+                            Spacer()
                             ProgressView("Loading...")
+                            Spacer()
+                            
+                        } else {
+                            Spacer()
+                            Text("No device found")
+                            Spacer()
+                        }
                         
                     }
                 } else {
@@ -71,7 +80,7 @@ struct ContentView: View {
             }
             .onAppear {
                 viewModel.fetchAPI()
-                
+                viewModel.checkInternetConnection()
                 if devices.isEmpty {
                     DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                         if viewModel.data?.count != 0 {
